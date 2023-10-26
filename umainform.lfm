@@ -1,0 +1,78 @@
+object MainForm: TMainForm
+  Left = 1250
+  Height = 410
+  Top = 318
+  Width = 339
+  Caption = 'CSV to WeaponsEquip Converter'
+  ClientHeight = 410
+  ClientWidth = 339
+  LCLVersion = '3.99.0.0'
+  object Log: TMemo
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 338
+    Top = 72
+    Width = 339
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Top = 72
+    ReadOnly = True
+    TabOrder = 0
+  end
+  object CsvButton: TButton
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    Left = 8
+    Height = 26
+    Top = 8
+    Width = 192
+    BorderSpacing.Left = 8
+    BorderSpacing.Top = 8
+    Caption = 'Select CSV File…'
+    OnClick = CsvButtonClick
+    TabOrder = 1
+  end
+  object WeaponsEquipButton: TButton
+    AnchorSideLeft.Control = CsvButton
+    AnchorSideTop.Control = CsvButton
+    AnchorSideTop.Side = asrBottom
+    Left = 8
+    Height = 26
+    Top = 42
+    Width = 192
+    BorderSpacing.Top = 8
+    Caption = 'Select Weapons_Equip.ini…'
+    OnClick = WeaponsEquipButtonClick
+    TabOrder = 2
+  end
+  object ApplyButton: TButton
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 216
+    Height = 57
+    Top = 8
+    Width = 115
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 8
+    BorderSpacing.Right = 8
+    Caption = 'Apply Values!'
+    Enabled = False
+    OnClick = ApplyButtonClick
+    TabOrder = 3
+  end
+  object OpenCsv: TOpenDialog
+    Filter = 'CSV|*.csv'
+    Left = 8
+    Top = 8
+  end
+  object OpenWeaponsEquipIni: TOpenDialog
+    Filter = 'INI|*.ini'
+    Left = 168
+    Top = 8
+  end
+end
