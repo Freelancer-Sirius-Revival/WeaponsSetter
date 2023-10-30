@@ -10,16 +10,18 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, UMainForm
-  { you can add units after this };
+  SysUtils,
+  Forms,
+  UMainForm;
 
 {$R *.res}
 
 begin
+  DefaultFormatSettings.DecimalSeparator := '.';
+  DefaultFormatSettings.ThousandSeparator := ',';
   RequireDerivedFormResource := True;
   Application.Scaled := True;
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.
-
