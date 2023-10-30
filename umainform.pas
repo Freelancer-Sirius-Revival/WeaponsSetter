@@ -297,7 +297,7 @@ begin
   KeyValue[1] := (1 / StrToFloat(Parts[18])).ToString(TFloatFormat.ffFixed, 0, 6);
   Weapons.Strings[KeyIndex] := KeyValue[0] + '= ' + TrimTrailingZeros(KeyValue[1]);
 
-  // Tougness
+  // Toughness
   KeyIndex := FindKeyLineIndexForBlock(Weapons, BlockIndex + 1, 'toughness');
   if KeyIndex < 0 then
   begin
@@ -307,6 +307,38 @@ begin
   KeyValue := Weapons.Strings[KeyIndex].Split('=');
   KeyValue[1] := (StrToFloat(Parts[20]) / 200).ToString(TFloatFormat.ffFixed, 0, 6);
   Weapons.Strings[KeyIndex] := KeyValue[0] + '= ' + TrimTrailingZeros(KeyValue[1]);
+
+  // Damage Type
+  KeyIndex := FindKeyLineIndexForBlock(Weapons, ProjectileBlockIndex + 1, 'weapon_type');
+  if (KeyIndex < 0) and (Parts[21].ToLower <> 'missile') and (Parts[21].ToLower <> 'rocket') then
+  begin
+    MainForm.Log.Append('Could not find "weapon_type" for ' + LineNumber.ToString);
+  end;
+  if KeyIndex >= 0 then
+  begin
+    if MotorBlockIndex < 0 then
+    begin
+      KeyValue := Weapons.Strings[KeyIndex].Split('=');
+      case Parts[21].ToLower of
+        'laser': KeyValue[1] := 'W_Laser';
+        'plasma': KeyValue[1] := 'W_Plasma';
+        'tachyon': KeyValue[1] := 'W_Tachyon';
+        'neutron': KeyValue[1] := 'W_Neutron';
+        'particle': KeyValue[1] := 'W_Particle';
+        'photon': KeyValue[1] := 'W_Photon';
+        'pulse': KeyValue[1] := 'W_Pulse';
+        'nomad': KeyValue[1] := 'W_Nomad';
+        'none': KeyValue[1] := 'W_NoClass';
+      else
+        MainForm.Log.Append('Could not assign "weapon_type" "' + Parts[21] + '" for ' + LineNumber.ToString);
+      end;
+      Weapons.Strings[KeyIndex] := KeyValue[0] + '= ' + KeyValue[1];
+    end
+    else
+    begin
+      MainForm.Log.Append('Cannot apply a "weapon_type" for a missile ' + LineNumber.ToString);
+    end;
+  end;
 end;
 
 procedure ProcessFiles(const CsvFileName: String; const WeaponsIniFileName: String; const OutputWeaponsIniFile: TStrings);
