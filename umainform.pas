@@ -12,6 +12,7 @@ type
     CsvButton: TButton;
     OpenCsv: TOpenDialog;
     OpenWeaponsEquipIni: TOpenDialog;
+    SaveWeaponsEquipIni: TSaveDialog;
     WeaponsEquipButton: TButton;
     ApplyButton: TButton;
     Log: TMemo;
@@ -308,7 +309,7 @@ begin
   Weapons.Strings[KeyIndex] := KeyValue[0] + '= ' + TrimTrailingZeros(KeyValue[1]);
 end;
 
-procedure ProcessFiles(const CsvFileName: String; const WeaponsIniFileName: String);
+procedure ProcessFiles(const CsvFileName: String; const WeaponsIniFileName: String; const OutputWeaponsIniFile: TStrings);
 var
   CsvFile: TStrings;       
   WeaponsFile: TStrings;
@@ -331,8 +332,7 @@ begin
         if (Length(SplitLine) > 0) and TryStrToInt(SplitLine[0], LineNumber) then
           ProcessDefinitionLine(Line, WeaponsFile, LineNumber);
       end;
-      WeaponsFile.SaveToFile(WeaponsIniFileName);
-      MainForm.Log.Append('Changes saved!');
+      OutputWeaponsIniFile.Assign(WeaponsFile);
     except                            
       MainForm.Log.Append('Error while processing!');
     end;
@@ -355,8 +355,17 @@ begin
 end;
 
 procedure TMainForm.ApplyButtonClick(Sender: TObject);
+var
+  OutputFile: TStrings;
 begin
-  ProcessFiles(OpenCsv.FileName, OpenWeaponsEquipIni.FileName);
+  OutputFile := TStringList.Create;
+  ProcessFiles(OpenCsv.FileName, OpenWeaponsEquipIni.FileName, OutputFile);
+  if SaveWeaponsEquipIni.Execute then
+  begin
+    OutputFile.SaveToFile(SaveWeaponsEquipIni.FileName);
+    MainForm.Log.Append(SaveWeaponsEquipIni.FileName + ' saved!');
+  end;
+  OutputFile.Free;
 end;
 
 end.

@@ -6,7 +6,7 @@ object MainForm: TMainForm
   Caption = 'CSV to WeaponsEquip Converter'
   ClientHeight = 410
   ClientWidth = 339
-  LCLVersion = '3.99.0.0'
+  LCLVersion = '2.3.0.0'
   object Log: TMemo
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -73,6 +73,12 @@ object MainForm: TMainForm
   object OpenWeaponsEquipIni: TOpenDialog
     Filter = 'INI|*.ini'
     Left = 168
+    Top = 8
+  end
+  object SaveWeaponsEquipIni: TSaveDialog
+    FileName = 'weapon_equip.ini'
+    Filter = 'INI|*.ini'
+    Left = 288
     Top = 8
   end
 end
